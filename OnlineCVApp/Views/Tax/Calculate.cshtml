@@ -1,0 +1,98 @@
+﻿@{
+    ViewData["Title"] = "Tax Calculator";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/css/styles.css" /> <!-- Link to your CSS file -->
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9; /* Light background for the whole page */
+            color: #333; /* Default text color */
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: white; /* White background for the content */
+            border-radius: 10px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1); /* Subtle shadow effect */
+        }
+
+        h1 {
+            color: #4CAF50; /* Heading color */
+            text-align: center; /* Center align heading */
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-size: 18px; /* Font size for labels */
+            margin-bottom: 10px; /* Space below labels */
+            display: block; /* Make label block level */
+        }
+
+        input[type="number"] {
+            width: 100%; /* Full width */
+            padding: 10px; /* Padding for inputs */
+            margin-bottom: 20px; /* Space below inputs */
+            border: 1px solid #ccc; /* Light gray border */
+            border-radius: 5px; /* Rounded corners */
+        }
+
+        button {
+            width: 100%; /* Full width */
+            padding: 10px; /* Padding for button */
+            background-color: #4CAF50; /* Green background for the button */
+            color: white; /* Text color of the button */
+            border: none; /* No border */
+            border-radius: 5px; /* Rounded corners */
+            font-size: 18px; /* Font size for button */
+            cursor: pointer; /* Pointer on hover */
+            transition: background-color 0.3s ease; /* Transition for hover effect */
+        }
+
+            button:hover {
+                background-color: #45a049; /* Darker green on hover */
+            }
+
+        .result {
+            margin-top: 20px; 
+            padding: 10px; 
+            background-color: #e8f5e9; 
+            border: 1px solid #4CAF50; 
+            border-radius: 5px; 
+        }
+
+        p {
+            font-size: 18px; 
+            line-height: 1.6; 
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Tax Calculator</h1>
+
+        <form method="post">
+            <label>Enter Annual Income:</label>
+            <input type="number" name="annualIncome" min="0" required />
+            <button type="submit">Calculate Tax</button>
+        </form>
+
+        @if (ViewBag.Tax != null)
+        {
+            <div class="result">
+                <p>Your annual income: @ViewBag.Income</p>
+                <p>Your calculated tax: @ViewBag.Tax</p>
+            </div>
+        }
+    </div>
+</body>
+</html>
