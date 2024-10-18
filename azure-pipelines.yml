@@ -1,31 +1,32 @@
+# Azure Pipelines YAML for building and deploying code
+
 trigger:
   branches:
     include:
-      - main  # Ensure it matches your branch name
+      - main  # Use 'main' or your active branch name
 
 pool:
-  vmImage: 'windows-latest'
-
-variables:
-  buildConfiguration: 'Release'
+  vmImage: ubuntu-latest
 
 steps:
-- task: UseDotNet@2
-  inputs:
-    packageType: 'sdk'
-    version: '6.x'
-    installationPath: $(Agent.ToolsDirectory)/dotnet
+  - script: |
+      echo "Starting build process..."
+      echo "Building and testing your code"
+    displayName: 'Initial Build Script'
 
-- script: dotnet restore
-  displayName: 'Restore Packages'
+  - task: UseDotNet@2
+    inputs:
+      packageType: 'sdk'
+      version: '6.x'  # Using .NET 6 SDK
+    displayName: 'Install .NET 6 SDK'
 
-- script: dotnet build --configuration $(buildConfiguration)
-  displayName: 'Build Solution'
+  - script: dotnet build --configuration Release
+    displayName: 'Build Project'
 
-- script: dotnet publish -c $(buildConfiguration) -o $(Build.ArtifactStagingDirectory)
-  displayName: 'Publish Artifact'
-
-- task: PublishBuildArtifacts@1
-  inputs:
-    pathToPublish: $(Build.ArtifactStagingDirectory)
-    artifactName: 'drop'
+  - script: dotnet test --no-build --verbosity normal
+    displayName: 'Run Tests'
+  
+  - script: |
+      echo "Build and test completed!"
+      echo "You can now add deployment steps."
+    displayName: 'Post-build Notification'
