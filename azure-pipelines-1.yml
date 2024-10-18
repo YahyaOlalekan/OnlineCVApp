@@ -1,19 +1,32 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
+# Azure Pipelines YAML for building and deploying code
 
 trigger:
-- master
+  branches:
+    include:
+      - main  # Use 'main' or your active branch name
 
 pool:
   vmImage: ubuntu-latest
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+  - script: |
+      echo "Starting build process..."
+      echo "Building and testing your code"
+    displayName: 'Initial Build Script'
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+  - task: UseDotNet@2
+    inputs:
+      packageType: 'sdk'
+      version: '6.x'  # Using .NET 6 SDK
+    displayName: 'Install .NET 6 SDK'
+
+  - script: dotnet build --configuration Release
+    displayName: 'Build Project'
+
+  - script: dotnet test --no-build --verbosity normal
+    displayName: 'Run Tests'
+  
+  - script: |
+      echo "Build and test completed!"
+      echo "You can now add deployment steps."
+    displayName: 'Post-build Notification'
